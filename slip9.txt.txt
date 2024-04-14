@@ -1,0 +1,90 @@
+1)
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:tools="http://schemas.android.com/tools" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    tools:context=".MainActivity"> 
+ 
+    <EditText 
+        android:id="@+id/firstNumberEdit" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:hint="Enter first number" 
+        android:inputType="number" 
+        android:layout_centerHorizontal="true" 
+        android:layout_marginTop="50dp"/> 
+ 
+    <EditText 
+        android:id="@+id/secondNumberEdit" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:hint="Enter second number" 
+        android:inputType="number" 
+        android:layout_below="@id/firstNumberEdit" 
+        android:layout_centerHorizontal="true" 
+        android:layout_marginTop="20dp"/> 
+ 
+    <Button 
+        android:id="@+id/submit" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Submit" 
+        android:layout_below="@id/secondNumberEdit" 
+        android:layout_centerHorizontal="true" 
+        android:layout_marginTop="20dp"/> 
+</RelativeLayout> 
+
+
+package com.example.activitylifecycle; 
+import android.os.Bundle; 
+import android.view.View; 
+import android.widget.Button; 
+import android.widget.EditText; 
+import android.widget.Toast; 
+ 
+import androidx.appcompat.app.AppCompatActivity; 
+ 
+public class MainActivity extends AppCompatActivity { 
+ 
+    private EditText firstNumberEdit, secondNumberEdit; 
+    private Button submit ; 
+ 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_main); 
+ 
+        // Initialize views 
+        firstNumberEdit = findViewById(R.id.firstNumberEdit); 
+        secondNumberEdit = findViewById(R.id.secondNumberEdit); 
+        submit = findViewById(R.id.submit); 
+ 
+        // Set click listener for submit button 
+        submit.setOnClickListener(new View.OnClickListener() { 
+            @Override 
+            public void onClick(View v) { 
+                // Get the numbers entered by the user 
+                int firstNumber = 
+Integer.parseInt(firstNumberEdit.getText().toString()); 
+                int secondNumber = 
+Integer.parseInt(secondNumberEdit.getText().toString()); 
+ 
+                // Check if both numbers are greater than 10 
+                if (firstNumber > 10 && secondNumber > 10) { 
+                    // Display a toast message to notify the user and prompt for new 
+numbers 
+                    Toast.makeText(MainActivity.this, "Both numbers should not be 
+greater than 10. Please enter new numbers.", Toast.LENGTH_SHORT).show(); 
+                } else { 
+                    // Display the numbers entered by the user 
+                    Toast.makeText(MainActivity.this, "First number: " + firstNumber + 
+", Second number: " + secondNumber, Toast.LENGTH_SHORT).show(); 
+                } 
+            } 
+        }); 
+    } 
+} 
+
+
+
+

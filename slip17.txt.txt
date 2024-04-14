@@ -1,0 +1,43 @@
+1)
+<?xml version="1.0" encoding="utf-8"?> 
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:tools="http://schemas.android.com/tools" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:layout_margin="16dp" 
+    tools:context=".MainActivity" > 
+ 
+    <Button 
+        android:onClick="call" 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:text="Call" /> 
+ 
+</RelativeLayout>
+
+
+package com.example.activitylifecycle; 
+ 
+import android.content.Intent; 
+import android.net.Uri; 
+import android.os.Bundle; 
+import android.view.View; 
+import androidx.appcompat.app.AppCompatActivity; 
+ 
+public class MainActivity extends AppCompatActivity { 
+ 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_main); 
+    } 
+ 
+    public void call(View view) { 
+        Intent dialIntent = new Intent(Intent.ACTION_DIAL); 
+        dialIntent.setData(Uri.parse("tel:1234567890")); 
+        startActivity(dialIntent); 
+    } 
+}
+
+
+

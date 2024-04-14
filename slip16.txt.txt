@@ -1,0 +1,282 @@
+1)
+<!-- activity_main.xml --> 
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:tools="http://schemas.android.com/tools" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    tools:context=".MainActivity"> 
+ 
+    <!-- Name EditText --> 
+    <EditText 
+        android:id="@+id/editTextName" 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:hint="Name" 
+        android:layout_margin="16dp" /> 
+ 
+    <!-- Surname EditText --> 
+    <EditText 
+        android:id="@+id/editTextSurname" 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:hint="Surname" 
+        android:layout_below="@id/editTextName" 
+        android:layout_margin="16dp" /> 
+ 
+    <!-- Class EditText --> 
+    <EditText 
+        android:id="@+id/editTextClass" 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:hint="Class" 
+        android:layout_below="@id/editTextSurname" 
+        android:layout_margin="16dp" /> 
+ 
+    <!-- Gender EditText --> 
+    <EditText 
+        android:id="@+id/editTextGender" 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:hint="Gender" 
+        android:layout_below="@id/editTextClass" 
+        android:layout_margin="16dp" /> 
+ 
+    <!-- Hobbies EditText --> 
+    <EditText 
+        android:id="@+id/editTextHobbies" 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:hint="Hobbies" 
+        android:layout_below="@id/editTextGender" 
+        android:layout_margin="16dp" /> 
+ 
+    <!-- Marks EditText --> 
+    <EditText 
+        android:id="@+id/editTextMarks" 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:hint="Marks" 
+        android:layout_below="@id/editTextHobbies" 
+        android:layout_margin="16dp" /> 
+ 
+    <!-- Submit Button --> 
+    <Button 
+        android:id="@+id/buttonSubmit" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:layout_below="@id/editTextMarks" 
+        android:layout_alignParentEnd="true" 
+        android:layout_marginTop="41dp" 
+        android:layout_marginEnd="162dp" 
+        android:text="Submit" /> 
+ 
+</RelativeLayout>
+
+
+//MainActivity.java
+
+import android.content.Intent; 
+import android.os.Bundle; 
+import android.view.View; 
+import android.widget.Button; 
+import android.widget.EditText; 
+ 
+import androidx.appcompat.app.AppCompatActivity; 
+ 
+public class MainActivity extends AppCompatActivity { 
+ 
+    private EditText editTextName, editTextSurname, editTextClass, editTextGender, 
+editTextHobbies, editTextMarks; 
+    private Button buttonSubmit; 
+ 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_main); 
+ 
+        // Initialize views 
+        editTextName = findViewById(R.id.editTextName); 
+        editTextSurname = findViewById(R.id.editTextSurname); 
+        editTextClass = findViewById(R.id.editTextClass); 
+        editTextGender = findViewById(R.id.editTextGender); 
+        editTextHobbies = findViewById(R.id.editTextHobbies); 
+        editTextMarks = findViewById(R.id.editTextMarks); 
+        buttonSubmit = findViewById(R.id.buttonSubmit); 
+ 
+        // Set click listener for submit button 
+        buttonSubmit.setOnClickListener(new View.OnClickListener() { 
+            @Override 
+            public void onClick(View v) { 
+                // Get student details 
+                String name = editTextName.getText().toString(); 
+                String surname = editTextSurname.getText().toString(); 
+                String studentClass = editTextClass.getText().toString(); 
+                String gender = editTextGender.getText().toString(); 
+                String hobbies = editTextHobbies.getText().toString(); 
+                String marks = editTextMarks.getText().toString(); 
+ 
+                // Start DisplayDetailsActivity and pass student details 
+                Intent intent = new Intent(MainActivity.this, ResultActivity.class); 
+                intent.putExtra("name", name); 
+                intent.putExtra("surname", surname); 
+                intent.putExtra("class", studentClass); 
+                intent.putExtra("gender", gender); 
+                intent.putExtra("hobbies", hobbies); 
+                intent.putExtra("marks", marks); 
+                startActivity(intent); 
+            } 
+        }); 
+    } 
+}
+
+
+
+//activity_result.xml 
+
+<!-- activity_display_details.xml --> 
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" 
+android:layout_width="match_parent" 
+android:layout_height="match_parent"> 
+<TableLayout 
+android:id="@+id/tableLayout" 
+android:layout_width="match_parent" 
+android:layout_height="wrap_content" 
+android:padding="16dp"> 
+<!-- Table rows will be added dynamically --> 
+</TableLayout> 
+</ScrollView>
+
+
+
+//ResultActivity.java 
+
+
+package com.example.activitylifecycle; 
+import android.os.Bundle; 
+import android.widget.TableLayout; 
+import android.widget.TableRow; 
+import android.widget.TextView; 
+ 
+import androidx.appcompat.app.AppCompatActivity; 
+ 
+public class ResultActivity extends AppCompatActivity { 
+ 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_result); 
+ 
+        // Retrieve student details from intent 
+        String name = getIntent().getStringExtra("name"); 
+        String surname = getIntent().getStringExtra("surname"); 
+        String studentClass = getIntent().getStringExtra("class"); 
+        String gender = getIntent().getStringExtra("gender"); 
+        String hobbies = getIntent().getStringExtra("hobbies"); 
+        String marks = getIntent().getStringExtra("marks"); 
+ 
+        // Find TableLayout in the layout 
+        TableLayout tableLayout = findViewById(R.id.tableLayout); 
+ 
+        // Add rows to the TableLayout dynamically 
+        addRow(tableLayout, "Name : ", name); 
+        addRow(tableLayout, "Surname : ", surname); 
+        addRow(tableLayout, "Class : ", studentClass); 
+        addRow(tableLayout, "Gender : ", gender); 
+        addRow(tableLayout, "Hobbies : ", hobbies); 
+        addRow(tableLayout, "Marks : ", marks); 
+    } 
+ 
+    // Method to add a row to the TableLayout 
+    private void addRow(TableLayout tableLayout, String label, String value) { 
+        // Create a new row 
+        TableRow row = new TableRow(this); 
+ 
+        // Create text views for label and value 
+        TextView labelTextView = new TextView(this); 
+        labelTextView.setText(label); 
+        TextView valueTextView = new TextView(this); 
+        valueTextView.setText(value); 
+ 
+        // Add text views to the row 
+        row.addView(labelTextView); 
+        row.addView(valueTextView); 
+// Add the row to the TableLayout 
+tableLayout.addView(row); 
+} 
+}
+
+
+SLIP16_Q2
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+    <Button
+        android:id="@+id/buttonPickTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pick Time"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"/>
+    <TextView
+        android:id="@+id/textViewTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selected Time: "
+        android:layout_below="@id/buttonPickTime"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+</RelativeLayout>
+
+//Java File
+package com.example.slip16_2;
+import android.app.TimePickerDialog;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.TimePicker;
+import androidx.appcompat.app.AppCompatActivity;
+import java.util.Calendar;
+public class MainActivity extends AppCompatActivity {
+    private TextView textViewTime;
+    private Button buttonPickTime;
+    private Calendar calendar;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        textViewTime = findViewById(R.id.textViewTime);
+        buttonPickTime = findViewById(R.id.buttonPickTime);
+        calendar = Calendar.getInstance();
+        buttonPickTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog();
+            }         });      }
+    private void showTimePickerDialog() {
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(
+                this,
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        calendar.set(Calendar.MINUTE, minute);
+                        updateTimeTextView();
+                    }               },
+                hour,
+                minute,
+                true
+        );
+        timePickerDialog.show();
+    }
+    private void updateTimeTextView() {
+        String selectedTime = "Selected Time: " + calendar.get(Calendar.HOUR_OF_DAY) + ":" +
+                String.format("%02d", calendar.get(Calendar.MINUTE));
+        textViewTime.setText(selectedTime);
+    }        }
+

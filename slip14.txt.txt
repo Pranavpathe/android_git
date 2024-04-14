@@ -1,0 +1,104 @@
+1)
+import androidx.appcompat.app.AppCompatActivity; 
+ 
+import android.os.Bundle; 
+import android.util.Log; 
+ 
+public class MainActivity extends AppCompatActivity { 
+ 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_main); 
+        Log.d("Lifecycle","oncreate method started"); 
+    } 
+ 
+    @Override 
+    protected void onStart() { 
+        super.onStart(); 
+        Log.d("Lifecycle","onstart method started"); 
+    } 
+ 
+    @Override 
+    protected void onResume() { 
+        super.onResume(); 
+        Log.d("Lifecycle","onresume method started"); 
+    } 
+ 
+    @Override 
+    protected void onPause() { 
+        super.onPause(); 
+        Log.d("Lifecycle","onpause method started"); 
+    } 
+ 
+    @Override 
+    protected void onStop() { 
+        super.onStop(); 
+        Log.d("Lifecycle","onstop method started"); 
+    } 
+ 
+    @Override 
+    protected void onRestart() { 
+        super.onRestart(); 
+        Log.d("Lifecycle","onrestart method started"); 
+    } 
+ 
+    @Override 
+    protected void onDestroy() { 
+        super.onDestroy(); 
+        Log.d("Lifecycle","ondestroy method started"); 
+    } 
+}
+
+
+
+SLIP14_Q2
+//XML File
+<!-- activity_main.xml -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Button
+        android:id="@+id/buttonSendEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Send Email" />
+</RelativeLayout>
+
+//Java File
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Button buttonSendEmail = findViewById(R.id.buttonSendEmail);
+        buttonSendEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendEmail();
+            }       });    }
+    private void sendEmail() {
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setType("text/plain");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"recipient@example.com"});
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Body of the email");
+        try {
+            startActivity(Intent.createChooser(emailIntent, "Send email using..."));
+        } catch (android.content.ActivityNotFoundException ex) {
+            // Handle case where no email app is available
+            // For example, display a toast message
+            Toast.makeText(this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+        }    }     }
+
+//AndroidManifest.XML
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+

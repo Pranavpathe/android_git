@@ -1,0 +1,148 @@
+1)
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:tools="http://schemas.android.com/tools" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    tools:context=".MainActivity"> 
+ 
+    <TextView 
+        android:id="@+id/textView" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:layout_centerHorizontal="true" 
+        android:layout_marginTop="100dp" 
+        android:text="Change me!" /> 
+ 
+    <SeekBar 
+        android:id="@+id/seekBarSize" 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:layout_below="@id/textView" 
+        android:layout_marginTop="40dp" 
+        android:max="100" /> 
+ 
+    <SeekBar 
+        android:id="@+id/seekBarColor" 
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content" 
+        android:layout_below="@id/seekBarSize" 
+        android:layout_marginTop="45dp" 
+        android:max="255" /> 
+ 
+    <Spinner 
+        android:id="@+id/fontFamilySpinner" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:layout_below="@id/seekBarColor" 
+        android:layout_alignParentEnd="true" 
+        android:layout_marginTop="54dp" 
+        android:layout_marginEnd="146dp" /> 
+ 
+</RelativeLayout> 
+
+
+import android.graphics.Color; 
+import android.graphics.Typeface; 
+import android.os.Bundle; 
+import android.view.View; 
+import android.widget.AdapterView; 
+import android.widget.ArrayAdapter; 
+import android.widget.SeekBar; 
+import android.widget.Spinner; 
+import android.widget.TextView; 
+ 
+import androidx.appcompat.app.AppCompatActivity; 
+ 
+public class MainActivity extends AppCompatActivity { 
+ 
+    private TextView textView; 
+    private SeekBar seekBarSize, seekBarColor; 
+    private Spinner fontFamilySpinner; 
+ 
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) { 
+        super.onCreate(savedInstanceState); 
+        setContentView(R.layout.activity_main); 
+ 
+        textView = findViewById(R.id.textView); 
+        seekBarSize = findViewById(R.id.seekBarSize); 
+        seekBarColor = findViewById(R.id.seekBarColor); 
+        fontFamilySpinner = findViewById(R.id.fontFamilySpinner); 
+ 
+        // Set up font size seek bar 
+        seekBarSize.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() { 
+            @Override 
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean 
+fromUser) { 
+                textView.setTextSize(progress); 
+            } 
+ 
+            @Override 
+            public void onStartTrackingTouch(SeekBar seekBar) {} 
+ 
+            @Override 
+            public void onStopTrackingTouch(SeekBar seekBar) {} 
+        }); 
+ 
+        // Set up font color seek bar 
+        seekBarColor.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() { 
+            @Override 
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean 
+fromUser) { 
+                textView.setTextColor(Color.rgb(progress, progress, progress)); 
+            } 
+ 
+            @Override 
+            public void onStartTrackingTouch(SeekBar seekBar) {} 
+ 
+            @Override 
+            public void onStopTrackingTouch(SeekBar seekBar) {} 
+        }); 
+ 
+        // Set up font family spinner 
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, 
+                R.array.font_families, android.R.layout.simple_spinner_item); 
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); 
+        fontFamilySpinner.setAdapter(adapter); 
+ 
+        fontFamilySpinner.setOnItemSelectedListener(new 
+AdapterView.OnItemSelectedListener() { 
+            @Override 
+            public void onItemSelected(AdapterView<?> parent, View view, int position, 
+long id) { 
+                String fontFamily = parent.getItemAtPosition(position).toString(); 
+                Typeface typeface = Typeface.DEFAULT; // Default typeface 
+ 
+                switch (fontFamily) { 
+                    case "Sans-serif": 
+                        typeface = Typeface.SANS_SERIF; 
+                        break; 
+                    case "Serif": 
+                        typeface = Typeface.SERIF; 
+                        break; 
+                    case "Monospace": 
+                        typeface = Typeface.MONOSPACE; 
+                        break; 
+// Add more font families as needed 
+} 
+textView.setTypeface(typeface); 
+} 
+@Override 
+public void onNothingSelected(AdapterView<?> parent) {} 
+}); 
+} 
+}
+
+
+//strings.xml 
+//add into resources tag of strgins.xml file these file already include into value folder  
+
+
+<string-array name="font_families"> 
+<item>Sans-serif</item> 
+<item>Serif</item> 
+<item>Monospace</item> 
+</string-array>
+
+
+
